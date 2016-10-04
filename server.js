@@ -26,7 +26,6 @@ mongoose.connect(config.database, function(err){
   }
 });
 
-
 app.use(bodyParser.urlencoded({ extended:true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
