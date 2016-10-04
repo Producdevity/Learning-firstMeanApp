@@ -31,6 +31,10 @@ app.use(bodyParser.urlencoded({ extended:true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
+// require and initialize api
+var api = require('./server/routes/api')(app, express);
+app.use('/api', api);
+
 // Set view engine to EJS and set the directory for the views
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, 'client', 'views'));
