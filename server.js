@@ -18,7 +18,7 @@ var path = require('path');
 var app = express();
 
 // connect mongoDB with the database url specified in config.js
-mongoose.connect(config.database, function(err){
+mongoose.connect(config.url, function(err){
   if(err){
     console.log(err);
   }else{
@@ -30,10 +30,6 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-// require and initialize api
-var api = require('./server/routes/api')(app, express);
-app.use('/api', api);
-
 // Set view engine to EJS and set the directory for the views
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, 'client', 'views'));
@@ -42,8 +38,17 @@ app.set('views', path.resolve(__dirname, 'client', 'views'));
 //ex: libs/bootstrap/bootstrap.css in our html actually points to client/libs/bootstrap/bootstrap.css
 app.use(express.static(path.resolve(__dirname, 'client')));
 
+// require and initialize api
+var api = require('./server/routes/api')(app, express);
+app.use('/api', api);
+
 // get method to render template
 app.get('/', function(req, res){
+  res.render('index.ejs');
+});
+
+// get method to fix (Cannot GET) error
+app.get('/*', function(req, res){
   res.render('index.ejs');
 });
 

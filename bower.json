@@ -1,0 +1,21 @@
+{
+  "name": "mean",
+  "description": "mean application test, nodejs express angularjs mongodb",
+  "main": "server.js",
+  "authors": [
+    "Yassine Gherbi"
+  ],
+  "license": "ISC",
+  "homepage": " ",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "angular": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "angular-bootstrap": "^2.1.4",
+    "angular-animate": "^1.5.8",
+    "angular-resource": "^1.5.8"
+  },
+  "install": {
+    "path": "client/libs"
+  }
+}
