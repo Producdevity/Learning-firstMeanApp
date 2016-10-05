@@ -80,7 +80,7 @@ module.exports = function(app, express){
 	});
 
 	api.get('/', function(req, res){
-		res.json('Hello Worldddd');
+		res.json('Passed Auth Middleware successful');
 	});
 
 	// get all users
