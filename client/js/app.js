@@ -1,5 +1,11 @@
 angular
-  .module('myApp', ['appRoutes', 'MainController', 'AuthService']);
+  .module('myApp', ['appRoutes', 'MainController', 'UserController', 'AuthService', 'UserService'])
+
+  .config(config);
+
+  function config ($httpProvider) {
+    $httpProvider.interceptors.push('AuthInterceptor');
+  }
 // var myApp = angular.module('myApp', [
 //   'ngRoute',
 //   'ngResource',

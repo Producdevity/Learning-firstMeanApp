@@ -27,12 +27,16 @@ module.exports = function(app, express){
 			username: req.body.username,
 			password: req.body.password
 		});
+		var token = createToken(user);
 		user.save(function(err, data){
 			if(err){
 				res.send(err)
 				return;
 			}
-			res.json({message: 'User had been created'});
+			res.json({
+				success: true,
+				message: 'User had been created',
+				token: token});
 		});
 	});
 
@@ -40,7 +44,7 @@ module.exports = function(app, express){
 	api.post('/login', function(req, res){
 		User.findOne({
 			username: req.body.username
-		}).select('password').exec(function(err, user){
+		}).select('name username password').exec(function(err, user){
 			if(err) throw err;
 			if(!user){
 				res.send({message: 'User doesnt exist'});
@@ -61,25 +65,6 @@ module.exports = function(app, express){
 		});
 	});
 
-	//**** Auth Middleware ****//
-	api.use(function(req, res, next){
-		console.log('Auth Middleware function');
-		var token = req.body.token || req.params.token || req.headers['x-access-token'];
-		// check if token exists
-		if(token){
-			jsonwebtoken.verify(token, secretKey, function(err, decoded){
-				if(err){
-					res.status(403).send({success: false, message: 'Authentication failed'})
-				} else {
-					// verify successful
-					req.decoded = decoded;
-					next();
-				}
-			});
-		} else {
-			res.status(403).send({success: false, message: 'No token provided'});
-		}
-	});
 
 	// get all users
 	api.get('/users', function(req, res){
@@ -129,7 +114,30 @@ module.exports = function(app, express){
 				}
 				res.json(stories);
 			})
-		})
+		});
+
+
+
+
+	//**** Auth Middleware ****//
+	api.use(function(req, res, next){
+		console.log('Auth Middleware function');
+		var token = req.body.token || req.params.token || req.headers['x-access-token'];
+		// check if token exists
+		if(token){
+			jsonwebtoken.verify(token, secretKey, function(err, decoded){
+				if(err){
+					res.status(403).send({success: false, message: 'Authentication failed'});
+				} else {
+					// verify successful
+					req.decoded = decoded;
+					next();
+				}
+			});
+		} else {
+			res.status(403).send({success: false, message: 'No token provided'});
+		}
+	});
 
 
 	api.get('/me', function(req, res){

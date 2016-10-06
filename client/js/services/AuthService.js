@@ -50,9 +50,9 @@ angular
       return $window.localStorage.removeItem('token');
   }
 
-  authTokenFactory.getToken = function(){
-    return $window.localStorage.getItem('token');
-  }
+  // authTokenFactory.getToken = function(){
+  //   return $window.localStorage.getItem('token');
+  // }
 
   return authTokenFactory;
 
@@ -69,11 +69,11 @@ angular
       return config;
     };
 
-    interceptorFactory.responseError = function(response){
-      if(response.status == 403)
-        $locacation.path('/login');
-      return $q.reject(response);
-    }
+    // interceptorFactory.responseError = function(response){
+    //   if(response.status == 403)
+    //     $locacation.path('/login');
+    //   return $q.reject(response);
+    // }
 
     return interceptorFactory;
 

@@ -4,7 +4,7 @@ angular
 
 function config ($routeProvider, $locationProvider) {
   $routeProvider
-    .when('/home', {
+    .when('/', {
       templateUrl: 'partials/home.html',
       // controller: 'MainController',
       // controllerAs: 'vm'
@@ -12,6 +12,11 @@ function config ($routeProvider, $locationProvider) {
     .when('/login', {
       templateUrl: 'partials/login.html',
       controller: 'MainController',
+      controllerAs: 'vm'
+    })
+    .when('/signup', {
+      templateUrl: 'partials/signup.html',
+      controller: 'UserController',
       controllerAs: 'vm'
     });
   // $routeProvider.when('/about', {templateUrl: 'partials/about.html', controller: 'aboutController'});
@@ -21,7 +26,7 @@ function config ($routeProvider, $locationProvider) {
   // $routeProvider.when('/projects/chat', {templateUrl: 'partials/projects/chat.html', controller: 'chatController'});
 
   //if no valid routes are found, redirect to /home
-  $routeProvider.otherwise({redirectTo: '/home'});
+  // $routeProvider.otherwise({redirectTo: '/home'});
 
   $locationProvider.html5Mode({enabled: true, requireBase: false});
 
