@@ -2,7 +2,6 @@ angular.module('UserController', ['UserService'])
 
 .controller('UserController', function(User, $location, $window){
   var vm = this;
-vm.testvar = 'fdsdsf';
 
   User.all()
     .success(function(data){

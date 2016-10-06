@@ -50,10 +50,6 @@ angular
       return $window.localStorage.removeItem('token');
   }
 
-  // authTokenFactory.getToken = function(){
-  //   return $window.localStorage.getItem('token');
-  // }
-
   return authTokenFactory;
 
 })
@@ -61,20 +57,20 @@ angular
 .factory('AuthInterceptor', function($q, $location, AuthToken){
   var interceptorFactory = {};
 
-    interceptorFactory.request = function(config){
-      var token = AuthToken.getToken();
-      if(token){
-        config.headers['x-access-token'] = token;
-      }
-      return config;
-    };
+  interceptorFactory.request = function(config){
+    var token = AuthToken.getToken();
+    if(token){
+      config.headers['x-access-token'] = token;
+    }
+    return config;
+  };
 
-    // interceptorFactory.responseError = function(response){
-    //   if(response.status == 403)
-    //     $locacation.path('/login');
-    //   return $q.reject(response);
-    // }
+  interceptorFactory.responseError = function(response){
+    if(response.status == 403)
+      $locacation.path('/login');
+    return $q.reject(response);
+  };
 
-    return interceptorFactory;
+  return interceptorFactory;
 
 });

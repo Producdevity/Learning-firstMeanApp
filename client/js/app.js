@@ -1,5 +1,5 @@
 angular
-  .module('myApp', ['appRoutes', 'MainController', 'UserController', 'AuthService', 'UserService'])
+  .module('myApp', ['appRoutes', 'NavController', 'MainController', 'UserController', 'AuthService', 'UserService'])
 
   .config(config);
 

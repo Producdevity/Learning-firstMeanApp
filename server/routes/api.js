@@ -88,6 +88,26 @@ module.exports = function(app, express){
 		});
 	});
 
+	//**** Auth Middleware ****//
+	api.use(function(req, res, next){
+		console.log('Auth Middleware function');
+		var token = req.body.token || req.params.token || req.headers['x-access-token'];
+		// check if token exists
+		if(token){
+			jsonwebtoken.verify(token, secretKey, function(err, decoded){
+				if(err){
+					res.status(403).send({success: false, message: 'Authentication failed'});
+				} else {
+					// verify successful
+					req.decoded = decoded;
+					next();
+				}
+			});
+		} else {
+			res.status(403).send({success: false, message: 'No token provided'});
+		}
+	});
+
 	// api.get('/', function(req, res){
 	// 	res.json('Passed Auth Middleware successful');
 	// });
@@ -116,30 +136,7 @@ module.exports = function(app, express){
 			})
 		});
 
-
-
-
-	//**** Auth Middleware ****//
-	api.use(function(req, res, next){
-		console.log('Auth Middleware function');
-		var token = req.body.token || req.params.token || req.headers['x-access-token'];
-		// check if token exists
-		if(token){
-			jsonwebtoken.verify(token, secretKey, function(err, decoded){
-				if(err){
-					res.status(403).send({success: false, message: 'Authentication failed'});
-				} else {
-					// verify successful
-					req.decoded = decoded;
-					next();
-				}
-			});
-		} else {
-			res.status(403).send({success: false, message: 'No token provided'});
-		}
-	});
-
-
+	// return decoden user info
 	api.get('/me', function(req, res){
 		res.json(req.decoded);
 	});
