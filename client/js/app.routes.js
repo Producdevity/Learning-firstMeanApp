@@ -14,6 +14,16 @@ function config ($routeProvider, $locationProvider) {
       templateUrl: 'partials/signup.html',
       controller: 'UserController',
       controllerAs: 'vm'
+    })
+    .when('/story', {
+      templateUrl: 'partials/story.html',
+      controller: 'StoryController',
+      controllerAs: 'vm'
+    })
+    .when('/user', {
+      templateUrl: 'partials/user.html',
+      controller: 'UserController',
+      controllerAs: 'vm'
     });
 
   //if no valid routes are found, redirect to /home

@@ -13,9 +13,11 @@ var mongoose = require('mongoose');
 var config = require('./config');
 // native NodeJS module for resolving paths
 var path = require('path');
-
 // initialize Express Web framework
 var app = express();
+
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 // connect mongoDB with the database url specified in config.js
 mongoose.connect(config.url, function(err){
@@ -39,21 +41,21 @@ app.set('views', path.resolve(__dirname, 'client', 'views'));
 app.use(express.static(path.resolve(__dirname, 'client')));
 
 // require and initialize api
-var api = require('./server/routes/api')(app, express);
+var api = require('./server/routes/api')(app, express, io);
 app.use('/api', api);
 
 // get method to render template
-app.get('/', function(req, res){
+app.get('*', function(req, res){
   res.render('index.ejs');
 });
 
 // get method to fix (Cannot GET) error
-app.get('/*', function(req, res){
-  res.render('index.ejs');
-});
+// app.get('/*', function(req, res){
+//   res.render('index.ejs');
+// });
 
-//make app listen for incoming requests on the port assigned in config
-app.listen(config.port, function(err){
+//make app/http listen for incoming requests on the port assigned in config
+http.listen(config.port, function(err){
   if(err){
     console.log(err);
   }else{

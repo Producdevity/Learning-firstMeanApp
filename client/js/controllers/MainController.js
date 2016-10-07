@@ -3,7 +3,7 @@ angular.module('MainController', [])
 .controller('MainController', function($rootScope, $location, Auth){
   var vm = this;
   vm.loggedIn = Auth.isLoggedIn();
- 
+
   $rootScope.$on('$routeChangeStart', function(){
     vm.loggedIn = Auth.isLoggedIn();
     Auth.getUser()
@@ -35,7 +35,7 @@ angular.module('MainController', [])
 
   vm.doLogout = function(){
     Auth.logout();
-    $location.path('/home');
+    $location.path('/');
   }
 
 });

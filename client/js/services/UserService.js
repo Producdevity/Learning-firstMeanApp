@@ -8,7 +8,7 @@ angular
   }
 
   userFactory.all = function(){
-    return $http.get('/api/users');
+    return $http.get('/api/user/all');
   }
 
   return userFactory;

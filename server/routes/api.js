@@ -17,7 +17,7 @@ function createToken(user){
 	return token;
 }
 
-module.exports = function(app, express){
+module.exports = function(app, express, io){
 	var api = express.Router();
 
 	// post signup user
@@ -65,29 +65,6 @@ module.exports = function(app, express){
 		});
 	});
 
-
-	// get all users
-	api.get('/users', function(req, res){
-		User.find({}, function(err, data){
-			if(err){
-				res.send(err)
-				return;
-			}
-			res.json(data);
-		});
-	});
-
-	// get user
-	api.get('/users/:id', function(req, res){
-		User.findOne({_id: req.params.id}, function(err, data){
-			if(err){
-				res.send(err)
-				return;
-			}
-			res.json(data);
-		});
-	});
-
 	//**** Auth Middleware ****//
 	api.use(function(req, res, next){
 		console.log('Auth Middleware function');
@@ -108,21 +85,65 @@ module.exports = function(app, express){
 		}
 	});
 
-	// api.get('/', function(req, res){
-	// 	res.json('Passed Auth Middleware successful');
-	// });
+	// return decoden user info
+	api.get('/me', function(req, res){
+		res.json(req.decoded);
+	});
 
-	api.route('/')
+	// get all users
+	api.get('/user/all', function(req, res){
+		User.find({}, function(err, data){
+			if(err){
+				res.send(err)
+				return;
+			}
+			res.json(data);
+		});
+	});
+
+	// get user
+	api.get('/user/:id', function(req, res){
+		User.findOne({_id: req.params.id}, function(err, data){
+			if(err){
+				res.send(err)
+				return;
+			}
+			res.json(data);
+		});
+	});
+
+	// api.route('/users')
+	// 	.get(function(req, res){
+	// 		User.find({}, function(err, data){
+	// 			if(err){
+	// 				res.send(err)
+	// 				return;
+	// 			}
+	// 			res.json(data);
+	// 		});
+	// 	})
+		// .get('/:id', function(req, res){
+		// 	User.findOne({_id: req.params.id}, function(err, data){
+		// 		if(err){
+		// 			res.send(err)
+		// 			return;
+		// 		}
+		// 		res.json(data);
+		// 	});
+		// });
+
+	api.route('/story')
 		.post(function(req, res) {
 			var story = new Story({
 				creator: req.decoded.id,
-				content: req.body.content
+				content: req.body.content,
 			});
-			story.save(function(err){
+			story.save(function(err, newStory){
 				if(err){
 					res.send(err)
-					return;
+					return
 				}
+				io.emit('story', newStory);
 				res.json({message: 'Story had been created'});
 			});
 		})
@@ -133,13 +154,30 @@ module.exports = function(app, express){
 					return;
 				}
 				res.json(stories);
-			})
+			});
 		});
 
-	// return decoden user info
-	api.get('/me', function(req, res){
-		res.json(req.decoded);
-	});
+		// get all story
+		api.get('/story/all', function(req, res){
+			Story.find({}, function(err, data){
+				if(err){
+					res.send(err)
+					return;
+				}
+				res.json(data);
+			});
+		});
+
+		// get story
+		api.get('/story/:id', function(req, res){
+			Story.findOne({_id: req.params.id}, function(err, data){
+				if(err){
+					res.send(err)
+					return;
+				}
+				res.json(data);
+			});
+		});
 
 	//
 	// router.delete('/customers', function(req, res){

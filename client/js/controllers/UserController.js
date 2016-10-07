@@ -1,5 +1,5 @@
-angular.module('UserController', ['UserService'])
-
+angular
+.module('UserController', ['UserService'])
 .controller('UserController', function(User, $location, $window){
   var vm = this;
 
@@ -9,16 +9,15 @@ angular.module('UserController', ['UserService'])
     });
 
   vm.signupUser = function(){
-    console.log('signupUser in userctrl');
     vm.message = '';
-      User.create(vm.userData)
-        .then(function(response){
-          vm.userData = {};
-          vm.message = response.data.message;
+    User.create(vm.userData)
+      .then(function(response){
+        vm.userData = {};
+        vm.message = response.data.message;
 
-          $window.localStorage.setItem('token', response.data.token);
-          $location.path('/');
-        });
+        $window.localStorage.setItem('token', response.data.token);
+        $location.path('/');
+      });
   }
 
 });
