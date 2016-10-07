@@ -1,7 +1,9 @@
 angular
-.module('StoryController', ['StoryService'])
-.controller('StoryController', function(Story, socketio){
+.module('StoryController', [])
+.controller('StoryController', function(Story, Socket){
   var vm = this;
+
+  Socket.connect();
 
   Story.get()
     .success(function(data){
@@ -21,12 +23,13 @@ angular
         vm.processing = false;
         vm.storyData = {};
         vm.message = data.message;
-        // vm.stories.push(data);
+        // vm.myStories.push(data);
       });
   };
 
-  socketio.on('story', function(data){
+  Socket.on('story', function(data){
     vm.myStories.push(data);
   })
+
 
 });

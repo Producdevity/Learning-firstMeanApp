@@ -17,7 +17,7 @@ function createToken(user){
 	return token;
 }
 
-module.exports = function(app, express, io){
+module.exports = function(app, express, Socket){
 	var api = express.Router();
 
 	// post signup user
@@ -143,7 +143,7 @@ module.exports = function(app, express, io){
 					res.send(err)
 					return
 				}
-				io.emit('story', newStory);
+				Socket.emit('story', newStory);
 				res.json({message: 'Story had been created'});
 			});
 		})

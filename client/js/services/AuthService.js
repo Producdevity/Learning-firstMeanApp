@@ -67,7 +67,7 @@ angular
 
   interceptorFactory.responseError = function(response){
     if(response.status == 403)
-      $locacation.path('/login');
+      $location.path('/login');
     return $q.reject(response);
   };
 

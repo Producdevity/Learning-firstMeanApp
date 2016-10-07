@@ -44,6 +44,40 @@ app.use(express.static(path.resolve(__dirname, 'client')));
 var api = require('./server/routes/api')(app, express, io);
 app.use('/api', api);
 
+// var users = [];
+// io.on('connection', function(socket){
+//     var username = '';
+//     console.log('a User has Connected!');
+//
+//     socket.on('request-users', function(){
+//       socket.emit('users', {users: users});
+//     });
+//
+//     socket.on('message', function(data){
+//       io.emit('message', {username: username, message: data.message});
+//     })
+
+    // socket.on('add-user', function(data){
+    //   if(users.indexOf(data.username) == -1){
+    //     io.emit('add-user', {
+    //       username: data.username
+    //     });
+    //     username = data.username;
+    //     users.push(data.username);
+    //   } else {
+    //     socket.emit('prompt-username', {
+    //       message: 'User Already Exists'
+    //     })
+    //   }
+    // })
+    //
+    // socket.on('disconnect', function(){
+    //   console.log(username + ' has disconnected!');
+    //   users.splice(users.indexOf(username), 1);
+    //   io.emit('remove-user', {username: username});
+    // })
+// });
+
 // get method to render template
 app.get('*', function(req, res){
   res.render('index.ejs');

@@ -1,5 +1,5 @@
 angular
-.module('UserController', ['UserService'])
+.module('UserController', [])
 .controller('UserController', function(User, $location, $window){
   var vm = this;
 
@@ -14,7 +14,6 @@ angular
       .then(function(response){
         vm.userData = {};
         vm.message = response.data.message;
-
         $window.localStorage.setItem('token', response.data.token);
         $location.path('/');
       });

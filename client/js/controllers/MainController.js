@@ -1,4 +1,5 @@
-angular.module('MainController', [])
+angular
+.module('MainController', [])
 
 .controller('MainController', function($rootScope, $location, Auth){
   var vm = this;
@@ -19,7 +20,6 @@ angular.module('MainController', [])
     vm.error = '';
     Auth.login(vm.loginData.username, vm.loginData.password)
       .success(function(data){
-        console.log('doLogin success');
         vm.processing = false;
         Auth.getUser()
           .then(function(data){

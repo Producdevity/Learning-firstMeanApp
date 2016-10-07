@@ -1,6 +1,11 @@
 angular
   .module('myApp', [
     'appRoutes',
+    'ngResource',
+    'ngAnimate',
+    'ui.bootstrap',
+    'btford.socket-io',
+    'SocketFactory',
     'NavController',
     'MainController',
     'UserController',
