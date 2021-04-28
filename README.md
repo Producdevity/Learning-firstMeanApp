@@ -1,2 +1,2 @@
-﻿# firstMeanApp
+# firstMeanApp
 (Learning the MEAN stack)
